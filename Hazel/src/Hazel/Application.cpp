@@ -34,7 +34,7 @@ Hazel::Application::~Application()
 void Hazel::Application::run()
 {
 
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.1f, 0.1f, 0.1, 1.0f);
 
 	while (m_Running)
 	{
