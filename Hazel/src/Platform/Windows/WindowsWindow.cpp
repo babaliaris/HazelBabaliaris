@@ -78,7 +78,8 @@ void Hazel::WindowsWindow::Init(const WindowProps& props)
 	m_context	= new OpenGLContext(m_Window);
 	m_context->Init();
 
-	
+	//Set the glViewport.
+	glViewport(0, 0, m_Data.Width, m_Data.Height);
 
 	glfwSetWindowUserPointer(m_Window, &m_Data);
 	SetVSync(true);
@@ -90,6 +91,9 @@ void Hazel::WindowsWindow::Init(const WindowProps& props)
 
 			data.Width  = x;
 			data.Height = y;
+
+			//Reset the glViewport.
+			glViewport(0, 0, x, y);
 
 			WindowResizeEvent e(x, y);
 

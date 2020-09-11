@@ -17,6 +17,10 @@
 
 	#endif
 
+
+	//Runtime Directory.
+	#define RUNTIME_DIR "../Hazel/"
+
 #else
 	#error Hazel only supports windows!
 

@@ -1,4 +1,4 @@
-workspace "Hazel"
+workspace "HazelBabaliaris"
 	architecture "x64"
 	
 	configurations 
@@ -129,7 +129,8 @@ workspace "Hazel"
 			"Hazel/vendor/spdlog/include",
 			"Hazel/src",
 			"Hazel/vendor",
-			"%{IncludeDir.GLM}"
+			"%{IncludeDir.GLM}",
+			"%{IncludeDir.Glad}"
 		}
 		
 		links "Hazel"
