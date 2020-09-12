@@ -9,10 +9,12 @@ namespace Hazel
 	{
 		//Generate and bind the VBO.
 		glGenBuffers(1, &m_RendererID);
-		this->Bind();
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 
 		//Upload the data to the GPU.
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 
@@ -46,10 +48,12 @@ namespace Hazel
 	{
 		//Generate and bind the VBO.
 		glGenBuffers(1, &m_RendererID);
-		this->Bind();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 
 		//Upload the data to the GPU.
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * count, indices, GL_STATIC_DRAW);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 
 

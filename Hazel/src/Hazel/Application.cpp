@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "glad/glad.h"
 #include "Input.h"
+#include "Renderer/Renderer.h"
 
 
 namespace Hazel
@@ -34,11 +35,12 @@ Hazel::Application::~Application()
 void Hazel::Application::run()
 {
 
-	glClearColor(0.1f, 0.1f, 0.1, 1.0f);
+	RenderCommand::SetClearColor(glm::vec4(0.2f, 0.2f, 0.2f, 1.0f));
 
 	while (m_Running)
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+
+		RenderCommand::Clear();
 
 		for (Layer* layer : m_LayerStack)
 			layer->OnUpdate();
