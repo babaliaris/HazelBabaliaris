@@ -1352,6 +1352,7 @@
     <ClInclude Include="src\Hazel\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Hazel\Renderer\RenderComman.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Application.cpp">
@@ -1404,5 +1405,6 @@
     <ClCompile Include="src\Hazel\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp" />
   </ItemGroup>
 </Project>

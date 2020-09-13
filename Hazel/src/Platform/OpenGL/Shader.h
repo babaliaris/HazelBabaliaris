@@ -15,8 +15,8 @@ namespace Hazel
 
         void SetUniform(const char *name, int x);
         void SetUniform(const char *name, float x);
-        void SetUniform(const char *name, glm::vec3 &vec3);
-        void SetUniform(const char *name, glm::mat4 &mat4);
+        void SetUniform(const char *name, const glm::vec3 &vec3);
+        void SetUniform(const char *name, const glm::mat4 &mat4);
 
         private:
         unsigned int m_id;

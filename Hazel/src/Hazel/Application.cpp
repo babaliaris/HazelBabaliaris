@@ -1,7 +1,5 @@
 #include "hzpch.h"
 #include "Application.h"
-#include "glad/glad.h"
-#include "Input.h"
 #include "Renderer/Renderer.h"
 
 

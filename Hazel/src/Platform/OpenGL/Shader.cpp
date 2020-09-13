@@ -75,12 +75,12 @@ namespace Hazel
     }
 
 
-    void Shader::SetUniform(const char *name, glm::vec3 &vec3)
+    void Shader::SetUniform(const char *name, const glm::vec3 &vec3)
     {
         glUniform3f(this->GetLocation(name), vec3.x, vec3.y, vec3.z);
     }
 
-    void Shader::SetUniform(const char *name, glm::mat4 &mat4)
+    void Shader::SetUniform(const char *name, const glm::mat4 &mat4)
     {
         glUniformMatrix4fv(this->GetLocation(name), 1, GL_FALSE, (const GLfloat *)&mat4[0]);
     }

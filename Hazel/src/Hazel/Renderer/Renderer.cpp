@@ -3,8 +3,11 @@
 
 namespace Hazel
 {
-	void Renderer::BeginScene()
+	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData();
+
+	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
+		s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 
 
@@ -15,8 +18,13 @@ namespace Hazel
 
 
 
-	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray)
+	void Renderer::Submit(const std::shared_ptr<VertexArray>& vertexArray, const std::shared_ptr<Shader>& shader)
 	{
+
+		//Use the shader and upload the ViewProjection matrix.
+		shader->Use();
+		shader->SetUniform("u_ViewProjectionMatrix", s_SceneData->ViewProjectionMatrix);
+
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 		vertexArray->Unbind();

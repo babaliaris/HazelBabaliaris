@@ -1,12 +1,6 @@
 #include <Hazel.h>
 #include "imgui/imgui.h"
 
-#include "Hazel/Renderer/Buffer.h"
-#include "Platform/OpenGL/Shader.h"
-#include "Hazel/Renderer/VertexArray.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
-#include "Hazel/Renderer/Renderer.h"
-
 namespace Hazel
 {
 	
@@ -15,7 +9,10 @@ namespace Hazel
 class MyLayer : public Hazel::Layer
 {
 public:
-	MyLayer(){}
+	MyLayer()
+		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+	{
+	}
 
 	~MyLayer(){}
 
@@ -59,11 +56,29 @@ public:
 	void OnUpdate() override 
 	{
 
-		Hazel::Renderer::BeginScene();
+		float x = 0, y = 0;
+		glm::vec3 direction = { 0.0f, 0.0f, 0.0f };
 
-		//m_vao->Bind();
-		m_shader->Use();
-		Hazel::Renderer::Submit(m_vao);
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
+			y = 1;
+
+		else if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
+			y = -1;
+
+		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
+			x = -1;
+
+		else if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
+			x = 1;
+
+		if (x != 0 || y != 0)
+			direction = glm::normalize(glm::vec3(x, y, 0.0f));
+
+		m_Camera.SetPosition(m_Camera.GetPosition() + direction);
+
+		Hazel::Renderer::BeginScene(m_Camera);
+
+		Hazel::Renderer::Submit(m_vao, m_shader);
 
 		Hazel::Renderer::EndScene();
 	}
@@ -74,6 +89,14 @@ public:
 
 	void OnEvent(Hazel::Event &e)
 	{
+		Hazel::EventDispatcher dispatcher(e);
+
+		dispatcher.Dispatch<Hazel::KeyPressedEvent>(HZ_BIND_EVENT_FN(MyLayer::OnKeyPress));
+	}
+
+	bool OnKeyPress(Hazel::KeyPressedEvent& event)
+	{
+		return false;
 	}
 
 private:
@@ -81,6 +104,8 @@ private:
 	std::shared_ptr < Hazel::VertexBuffer> m_vbo;
 	std::shared_ptr < Hazel::IndexBuffer> m_ebo;
 	std::shared_ptr < Hazel::Shader> m_shader;
+
+	Hazel::OrthographicCamera m_Camera;
 };
 
 
