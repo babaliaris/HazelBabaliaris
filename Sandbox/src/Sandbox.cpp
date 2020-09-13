@@ -53,7 +53,7 @@ public:
 		m_shader.reset( new Hazel::Shader("src/Hazel/Renderer/Shaders/Vertex.vert", "src/Hazel/Renderer/Shaders/Fragment.frag") );
 	}
 
-	void OnUpdate() override 
+	void OnUpdate(Hazel::Timestep ts) override 
 	{
 
 		float x = 0, y = 0;
@@ -74,7 +74,7 @@ public:
 		if (x != 0 || y != 0)
 			direction = glm::normalize(glm::vec3(x, y, 0.0f));
 
-		m_Camera.SetPosition(m_Camera.GetPosition() + direction);
+		m_Camera.SetPosition(m_Camera.GetPosition() + ts * direction);
 
 		Hazel::Renderer::BeginScene(m_Camera);
 
