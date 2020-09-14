@@ -2,6 +2,7 @@
 // Distributed under the MIT License (http://opensource.org/licenses/MIT)
 
 #pragma once
+#pragma warning(disable : 26812)
 
 #ifndef SPDLOG_HEADER_ONLY
 #include <spdlog/common.h>

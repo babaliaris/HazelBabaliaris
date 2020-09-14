@@ -1,11 +1,15 @@
-#include "hzpch.h"
-#include "VertexArray.h"
+#include <hzpch.h>
+#include "Shader.h"
+#include "Hazel/Core.h"
 #include "Renderer.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+
+#include "Platform/OpenGL/OpenGLShader.h"
+
+
 
 namespace Hazel
 {
-	Ref<VertexArray> VertexArray::Create()
+	Ref<Shader> Shader::Create(const char* v_path, const char* f_path)
 	{
 		switch (Renderer::GetApi())
 		{
@@ -17,7 +21,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return Ref<VertexArray>(new OpenGLVertexArray());
+				return Ref<Shader>(new OpenGLShader(v_path, f_path));
 			}
 		}
 

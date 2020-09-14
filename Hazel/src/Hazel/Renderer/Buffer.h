@@ -66,7 +66,9 @@ namespace Hazel
 		unsigned int	Offset;
 		bool			Normilized;
 
-		BufferElement(){}
+		BufferElement()
+			: Type(ShaderDataType::None), Name(""), Size(0), Offset(0), Normilized(false)
+		{}
 		BufferElement(ShaderDataType type, const std::string& name, bool normalized=false)
 			: Type(type), Name(name), Size(ShaderDataTypeSize(type)), Offset(0), Normilized(normalized)
 		{}
@@ -110,6 +112,8 @@ namespace Hazel
 				return 1;
 
 			}
+
+			return 0;
 		}
 	};
 
@@ -167,7 +171,7 @@ namespace Hazel
 		virtual const BufferLayout& GetLayout() const = 0;
 		virtual void SetLayout(const BufferLayout& layout)  = 0;
 
-		static VertexBuffer* Create(float* vertices, unsigned int size);
+		static Ref<VertexBuffer> Create(float* vertices, unsigned int size);
 	};
 
 	class IndexBuffer
@@ -180,6 +184,6 @@ namespace Hazel
 		virtual void Unbind()			const = 0;
 		virtual unsigned int GetCount() const = 0;
 
-		static IndexBuffer* Create(unsigned int* indices, unsigned int count);
+		static Ref<IndexBuffer> Create(unsigned int* indices, unsigned int count);
 	};
 }

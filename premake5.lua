@@ -13,10 +13,11 @@ workspace "HazelBabaliaris"
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 	IncludeDir = {}
-	IncludeDir["GLFW"] 	= "Hazel/vendor/glfw/include"
-	IncludeDir["Glad"] 	= "Hazel/vendor/Glad/include"
-	IncludeDir["ImGui"] = "Hazel/vendor/imgui"
-	IncludeDir["GLM"] 	= "Hazel/vendor/glm"
+	IncludeDir["GLFW"] 		= "Hazel/vendor/glfw/include"
+	IncludeDir["Glad"] 		= "Hazel/vendor/Glad/include"
+	IncludeDir["ImGui"] 	= "Hazel/vendor/imgui"
+	IncludeDir["GLM"] 		= "Hazel/vendor/glm"
+	IncludeDir["STB_IMG"] 	= "Hazel/vendor/stb_image"
 	
 	group "Depedencies"
 		include "Hazel/vendor/glfw"
@@ -44,6 +45,8 @@ workspace "HazelBabaliaris"
 			"%{prj.name}/src/**.h",
 			"%{prj.name}/src/**.cpp",
 			"%{prj.name}/src/**.c",
+			"%{prj.name}/vendor/stb_image/stb_image.h",
+			"%{prj.name}/vendor/stb_image/stb_image.cpp",
 			"%{prj.name}/vendor/glm/glm/**.hpp",
 			"%{prj.name}/vendor/glm/glm/**.inl"
 		}
@@ -55,7 +58,8 @@ workspace "HazelBabaliaris"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.Glad}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.GLM}"
+			"%{IncludeDir.GLM}",
+			"%{IncludeDir.STB_IMG}"
 		}
 		
 		

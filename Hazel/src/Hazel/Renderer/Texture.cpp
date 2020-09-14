@@ -1,11 +1,11 @@
 #include "hzpch.h"
-#include "VertexArray.h"
-#include "Renderer.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Texture.h"
+#include "Hazel/Renderer/Renderer.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
 
 namespace Hazel
 {
-	Ref<VertexArray> VertexArray::Create()
+	Ref<Texture2D> Texture2D::Create(const std::string& path)
 	{
 		switch (Renderer::GetApi())
 		{
@@ -17,7 +17,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return Ref<VertexArray>(new OpenGLVertexArray());
+				return Ref<Texture2D>(std::make_shared<OpenGLTexture2D>(path));
 			}
 		}
 

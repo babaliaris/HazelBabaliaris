@@ -1,5 +1,5 @@
 #include <hzpch.h>
-#include "Shader.h"
+#include "OpenGLShader.h"
 #include <glad/glad.h>
 #include "Hazel/Core.h"
 #include <fstream>
@@ -9,7 +9,7 @@
 
 namespace Hazel
 {
-    Shader::Shader(const char *v_path, const char *f_path)
+    OpenGLShader::OpenGLShader(const char *v_path, const char *f_path)
         : m_vertex_path(v_path), m_fragment_path(f_path)
     {
 
@@ -57,30 +57,49 @@ namespace Hazel
     }
 
 
-    void Shader::Use()
+
+
+    OpenGLShader::~OpenGLShader()
+    {
+        glDeleteProgram(m_id);
+    }
+
+
+    void OpenGLShader::Bind()
     {
         glUseProgram(m_id);
     }
 
+    void OpenGLShader::Unbind()
+    {
+        glUseProgram(0);
+    }
 
-    void Shader::SetUniform(const char *name, int x)
+
+    void OpenGLShader::SetUniform(const char *name, int x)
     {
         glUniform1i(this->GetLocation(name), x);
     }
 
 
-    void Shader::SetUniform(const char *name, float x)
+    void OpenGLShader::SetUniform(const char *name, float x)
     {
         glUniform1f(this->GetLocation(name), x);
     }
 
 
-    void Shader::SetUniform(const char *name, const glm::vec3 &vec3)
+    void OpenGLShader::SetUniform(const char *name, const glm::vec3 &vec3)
     {
         glUniform3f(this->GetLocation(name), vec3.x, vec3.y, vec3.z);
     }
 
-    void Shader::SetUniform(const char *name, const glm::mat4 &mat4)
+
+    void OpenGLShader::SetUniform(const char* name, const glm::vec4& vec4)
+    {
+        glUniform4f(this->GetLocation(name), vec4.x, vec4.y, vec4.z, vec4.w);
+    }
+
+    void OpenGLShader::SetUniform(const char *name, const glm::mat4 &mat4)
     {
         glUniformMatrix4fv(this->GetLocation(name), 1, GL_FALSE, (const GLfloat *)&mat4[0]);
     }
@@ -90,7 +109,7 @@ namespace Hazel
 
 
 
-    std::string Shader::ReadFile(std::string &path)
+    std::string OpenGLShader::ReadFile(std::string &path)
     {
         std::string full_path = std::string(RUNTIME_DIR) + path;
         std::ifstream file(full_path.c_str());
@@ -112,7 +131,7 @@ namespace Hazel
     }
 
 
-    unsigned int Shader::CompileShader(int type, std::string &path)
+    unsigned int OpenGLShader::CompileShader(int type, std::string &path)
     {
 
         //Create the src string.
@@ -156,11 +175,11 @@ namespace Hazel
 
 
 
-    int Shader::GetLocation(const char *name)
+    int OpenGLShader::GetLocation(const char *name)
     {
 
         //Bind the program;
-        this->Use();
+        this->Bind();
 
         //Get the uniform location.
         int location = glGetUniformLocation(m_id, name);

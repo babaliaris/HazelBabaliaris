@@ -5,7 +5,7 @@
 
 namespace Hazel
 {
-	VertexBuffer* VertexBuffer::Create(float* vertices, unsigned int size)
+	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, unsigned int size)
 	{
 		switch (Renderer::GetApi())
 		{
@@ -17,7 +17,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return dynamic_cast<VertexBuffer*>(new OpenGLVertexBuffer(vertices, size));
+				return Ref<VertexBuffer>(new OpenGLVertexBuffer(vertices, size));
 			}
 		}
 
@@ -27,7 +27,7 @@ namespace Hazel
 
 
 
-	IndexBuffer* IndexBuffer::Create(unsigned int* indices, unsigned int count)
+	Ref<IndexBuffer> IndexBuffer::Create(unsigned int* indices, unsigned int count)
 	{
 		switch (Renderer::GetApi())
 		{
@@ -39,7 +39,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return dynamic_cast<IndexBuffer*>(new OpenGLIndexBuffer(indices, count));
+				return Ref<IndexBuffer>(new OpenGLIndexBuffer(indices, count));
 			}
 		}
 

@@ -4,6 +4,7 @@
 // All rights reserved.
 //
 // For the license information refer to format.h.
+#pragma warning(disable : 26451 26495)
 
 #ifndef FMT_CORE_H_
 #define FMT_CORE_H_

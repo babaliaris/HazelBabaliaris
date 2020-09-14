@@ -1,21 +1,23 @@
-#ifndef ENGINE_SHADER_H
-#define ENGINE_SHADER_H
+#pragma once
 #include <iostream>
-#include <glm/glm.hpp>
+#include "Hazel/Renderer/Shader.h"
 
 namespace Hazel
 {
-    class Shader
+    class OpenGLShader : public Shader
     {
         public:
 
-        Shader(const char *v_path, const char *f_path);
+        OpenGLShader(const char *v_path, const char *f_path);
+        virtual ~OpenGLShader();
 
-        void Use();
+        virtual void Bind() override;
+        virtual void Unbind() override;
 
         void SetUniform(const char *name, int x);
         void SetUniform(const char *name, float x);
         void SetUniform(const char *name, const glm::vec3 &vec3);
+        void SetUniform(const char* name, const glm::vec4& vec4);
         void SetUniform(const char *name, const glm::mat4 &mat4);
 
         private:
@@ -29,5 +31,3 @@ namespace Hazel
         int GetLocation(const char *name);
     };
 }
-
-#endif
