@@ -8,6 +8,8 @@ namespace Hazel
 
 	public:
 
+		static void Init();
+
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);

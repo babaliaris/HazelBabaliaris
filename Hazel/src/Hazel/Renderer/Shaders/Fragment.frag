@@ -9,5 +9,5 @@ uniform sampler2D u_Diffuse;
 
 void main()
 {
-	fragColor = texture(u_Diffuse, textureCoord) + u_Color * 0.0f;
+	fragColor = texture(u_Diffuse, textureCoord) + u_Color*0;
 }

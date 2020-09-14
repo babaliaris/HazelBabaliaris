@@ -32,4 +32,11 @@ namespace Hazel
 		RenderCommand::DrawIndexed(vertexArray);
 		vertexArray->Unbind();
 	}
+
+
+
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
 }

@@ -21,6 +21,8 @@ Hazel::Application::Application()
 	HZ_CORE_ASSERT(!s_Instance, "Application Already Exists...");
 	s_Instance = this;
 
+	Renderer::Init();
+
 	m_ImGuiLayer = new ImGuiLayer();
 	PushOverlayer(m_ImGuiLayer);
 }

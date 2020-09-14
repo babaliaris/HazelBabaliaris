@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderComman.h"
+#include "RenderCommand.h"
 #include "OrthographicCamera.h"
 #include "Hazel/Renderer/Shader.h"
 
@@ -15,6 +15,8 @@ namespace Hazel
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform = glm::mat4(1));
 
 		inline static RendererAPI::API GetApi() { return RendererAPI::GetAPI(); }
+
+		static void Init();
 
 	private:
 		
