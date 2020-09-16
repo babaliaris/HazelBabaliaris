@@ -31,4 +31,11 @@ namespace Hazel
 		//The binding of the vertexArray is being handled in the Renderer.cpp -> Submit level.
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
+
+
+
+	void OpenGLRendererAPI::SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+	{
+		glViewport(x, y, width, height);
+	}
 }

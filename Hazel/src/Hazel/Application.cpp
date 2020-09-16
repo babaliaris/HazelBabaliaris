@@ -48,8 +48,11 @@ void Hazel::Application::run()
 
 		RenderCommand::Clear();
 
-		for (Layer* layer : m_LayerStack)
-			layer->OnUpdate(timestep);
+		if (!m_Minimized)
+		{
+			for (Layer* layer : m_LayerStack)
+				layer->OnUpdate(timestep);
+		}
 		
 
 		m_ImGuiLayer->Begin();
@@ -70,6 +73,7 @@ void Hazel::Application::OnEvent(Event& e)
 
 	//Dispatching WindowCloseEvent
 	dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowCloseEvent, this, std::placeholders::_1));
+	dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Application::OnWindowResizeEvent, this, std::placeholders::_1));
 
 	//For all the layers, call the onEvent method.
 	for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
@@ -108,4 +112,23 @@ bool Hazel::Application::OnWindowCloseEvent(WindowCloseEvent& e)
 {
 	m_Running = false;
 	return true;
+}
+
+
+
+bool Hazel::Application::OnWindowResizeEvent(WindowResizeEvent& e)
+{
+
+	//Window is minimized.
+	if (e.GetWidth() == 0 || e.GetHeight() == 0)
+	{
+		m_Minimized = true;
+		return false;
+	}
+
+	Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+	m_Minimized = false;
+
+	return false;
 }

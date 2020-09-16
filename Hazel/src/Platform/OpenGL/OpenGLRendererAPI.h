@@ -16,6 +16,8 @@ namespace Hazel
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray) override;
 
+		virtual void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height) override;
+
 	private:
 
 	};

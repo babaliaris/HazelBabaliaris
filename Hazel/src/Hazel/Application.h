@@ -33,13 +33,15 @@ namespace Hazel
 
 		ImGuiLayer *m_ImGuiLayer;
 
-		bool m_Running = true;
+		bool m_Running		= true;
+		bool m_Minimized	= false;
 
 		LayerStack m_LayerStack;
 
 		float m_LastFrameTime = 0.0f;
 
 		bool OnWindowCloseEvent(WindowCloseEvent& e);
+		bool OnWindowResizeEvent(WindowResizeEvent& e);
 	};
 }
 

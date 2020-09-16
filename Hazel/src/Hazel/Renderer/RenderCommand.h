@@ -25,6 +25,12 @@ namespace Hazel
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}
 
+
+		inline static void SetViewport(unsigned int x, unsigned int y, unsigned int width, unsigned int height)
+		{
+			s_RendererAPI->SetViewport(x, y, width, height);
+		}
+
 	private:
 		static RendererAPI* s_RendererAPI;
 

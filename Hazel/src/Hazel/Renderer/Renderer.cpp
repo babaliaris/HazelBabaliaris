@@ -19,6 +19,12 @@ namespace Hazel
 	}
 
 
+	void Renderer::OnWindowResize(unsigned int width, unsigned int height)
+	{
+		RenderCommand::SetViewport(0, 0, width, height);
+	}
+
+
 
 	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Shader>& shader, const glm::mat4& transform)
 	{
