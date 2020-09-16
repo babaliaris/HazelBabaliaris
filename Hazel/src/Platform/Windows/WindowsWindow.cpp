@@ -92,7 +92,6 @@ void Hazel::WindowsWindow::Init(const WindowProps& props)
 			data.Width  = x;
 			data.Height = y;
 
-			//Reset the glViewport.
 			glViewport(0, 0, x, y);
 
 			WindowResizeEvent e(x, y);

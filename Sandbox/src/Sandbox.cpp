@@ -10,7 +10,7 @@ class MyLayer : public Hazel::Layer
 {
 public:
 	MyLayer()
-		: m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+		: m_CameraController(Hazel::Application::Get().GetWindow().GetWidth() / (float)Hazel::Application::Get().GetWindow().GetHeight(), true)
 	{
 	}
 
@@ -52,9 +52,8 @@ public:
 		m_vao->SetIndexBuffer(m_ebo);
 		
 
-		m_shader = Hazel::Shader::Create("src/Hazel/Renderer/Shaders/Vertex.vert", "src/Hazel/Renderer/Shaders/Fragment.frag");
-
-		m_Camera.SetPosition(glm::vec3(0.5, 0.5, 0));
+		shader_lib.Load("src/Hazel/Renderer/Shaders/Vertex.vert", "src/Hazel/Renderer/Shaders/Fragment.frag");
+		m_shader = shader_lib.Get("Vertex.vert_Fragment.frag");
 
 		m_texture = Hazel::Texture2D::Create("Assets/Textures/Checkerboard.png");
 		m_cherno  = Hazel::Texture2D::Create("Assets/Textures/ChernoLogo.png");
@@ -63,27 +62,9 @@ public:
 	void OnUpdate(Hazel::Timestep ts) override 
 	{
 
-		float x = 0, y = 0;
-		glm::vec3 direction = { 0.0f, 0.0f, 0.0f };
+		m_CameraController.OnUpdate(ts);
 
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
-			y = 1;
-
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
-			y = -1;
-
-		if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
-			x = -1;
-
-		else if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
-			x = 1;
-
-		if (x != 0 || y != 0)
-			direction = glm::normalize(glm::vec3(x, y, 0.0f));
-
-		m_Camera.SetPosition(m_Camera.GetPosition() + ts * direction);
-
-		Hazel::Renderer::BeginScene(m_Camera);
+		Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
 
 		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_shader)->SetUniform("u_Color", glm::vec4(m_square_color, 0.0f));
@@ -124,14 +105,7 @@ public:
 
 	void OnEvent(Hazel::Event &e)
 	{
-		Hazel::EventDispatcher dispatcher(e);
-
-		dispatcher.Dispatch<Hazel::KeyPressedEvent>(HZ_BIND_EVENT_FN(MyLayer::OnKeyPress));
-	}
-
-	bool OnKeyPress(Hazel::KeyPressedEvent& event)
-	{
-		return false;
+		m_CameraController.OnEvent(e);
 	}
 
 private:
@@ -141,7 +115,9 @@ private:
 	Hazel::Ref <Hazel::Shader> m_shader;
 	Hazel::Ref <Hazel::Texture> m_texture, m_cherno;
 
-	Hazel::OrthographicCamera m_Camera;
+	Hazel::ShaderLibrary shader_lib;
+
+	Hazel::OrthographicCameraController m_CameraController;
 
 	glm::vec3 m_square_color = glm::vec3(0.0f, 0.0f, 0.6f);
 };

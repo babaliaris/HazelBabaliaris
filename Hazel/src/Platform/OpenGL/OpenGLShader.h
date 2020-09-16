@@ -14,6 +14,8 @@ namespace Hazel
         virtual void Bind() override;
         virtual void Unbind() override;
 
+        virtual const std::string& GetName() const override;
+
         void SetUniform(const char *name, int x);
         void SetUniform(const char *name, float x);
         void SetUniform(const char *name, const glm::vec3 &vec3);
@@ -22,7 +24,7 @@ namespace Hazel
 
         private:
         unsigned int m_id;
-        std::string m_vertex_path, m_fragment_path;
+        std::string m_vertex_path, m_fragment_path, m_name;
 
         std::string ReadFile(std::string &path);
 

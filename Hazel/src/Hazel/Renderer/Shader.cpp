@@ -28,4 +28,33 @@ namespace Hazel
 		HZ_CORE_ASSERT(false, "Uknown renderer api.");
 		return nullptr;
 	}
+
+
+
+
+
+	void ShaderLibrary::Add(const Ref<Shader>& shader)
+	{
+		HZ_CORE_ASSERT( m_shaders.find(shader->GetName()) == m_shaders.end(), "Shader already exists!");
+		m_shaders[shader->GetName()] = shader;
+	}
+
+
+
+	Ref<Shader> ShaderLibrary::Load(const std::string& vert_path, const std::string& frag_path)
+	{
+		Ref<Shader> shader = Shader::Create(vert_path.c_str(), frag_path.c_str());
+		this->Add(shader);
+		return shader;
+	}
+
+
+	/**
+	* Shader name signature: VertexName.vert_FragmentName.frag
+	*/
+	Ref<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+		HZ_CORE_ASSERT(m_shaders.find(name) != m_shaders.end(), "Shader did not found!");
+		return m_shaders[name];
+	}
 }

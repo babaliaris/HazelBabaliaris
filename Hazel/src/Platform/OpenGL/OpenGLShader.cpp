@@ -10,8 +10,20 @@
 namespace Hazel
 {
     OpenGLShader::OpenGLShader(const char *v_path, const char *f_path)
-        : m_vertex_path(v_path), m_fragment_path(f_path)
+        : m_id(0), m_vertex_path(v_path), m_fragment_path(f_path)
     {
+
+        //--------------------Create the name of this shader--------------------//
+        auto lastShashVert = m_vertex_path.find_last_of("/");
+        lastShashVert = lastShashVert == std::string::npos ? 0 : lastShashVert + 1;
+
+        auto lastShashFrag = m_fragment_path.find_last_of("/");
+        lastShashFrag = lastShashFrag == std::string::npos ? 0 : lastShashFrag + 1;
+
+        //Create the name of this shader.
+        m_name = m_vertex_path.substr(lastShashVert, m_vertex_path.length()) + "_" +
+            m_fragment_path.substr(lastShashFrag, m_fragment_path.length());
+        //--------------------Create the name of this shader--------------------//
 
         //Compile the vertex and the fragment shaders.
         unsigned int vertex     = this->CompileShader(GL_VERTEX_SHADER, m_vertex_path);
@@ -73,6 +85,11 @@ namespace Hazel
     void OpenGLShader::Unbind()
     {
         glUseProgram(0);
+    }
+
+    const std::string& OpenGLShader::GetName() const
+    {
+        return m_name;
     }
 
 
