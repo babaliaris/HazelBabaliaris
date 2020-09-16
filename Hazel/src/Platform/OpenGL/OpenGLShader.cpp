@@ -1,7 +1,7 @@
 #include <hzpch.h>
 #include "OpenGLShader.h"
 #include <glad/glad.h>
-#include "Hazel/Core.h"
+#include "Hazel/Core/Core.h"
 #include <fstream>
 #include <sstream>
 

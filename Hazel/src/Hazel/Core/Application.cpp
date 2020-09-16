@@ -1,6 +1,6 @@
 #include "hzpch.h"
-#include "Application.h"
-#include "Renderer/Renderer.h"
+#include "Hazel/Core/Application.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Core/Timestep.h"
 
 #include "GLFW/glfw3.h"
