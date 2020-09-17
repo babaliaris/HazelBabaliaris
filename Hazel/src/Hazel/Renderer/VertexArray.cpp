@@ -17,7 +17,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return Ref<VertexArray>(new OpenGLVertexArray());
+				return Ref<VertexArray>(std::make_shared <OpenGLVertexArray>());
 			}
 		}
 

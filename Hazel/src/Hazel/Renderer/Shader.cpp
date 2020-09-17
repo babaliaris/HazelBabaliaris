@@ -21,7 +21,7 @@ namespace Hazel
 
 			case RendererAPI::API::OpenGL:
 			{
-				return Ref<Shader>(new OpenGLShader(v_path, f_path));
+				return Ref<Shader>(std::make_shared <OpenGLShader>(v_path, f_path));
 			}
 		}
 

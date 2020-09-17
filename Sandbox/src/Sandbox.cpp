@@ -1,5 +1,6 @@
 #include <Hazel.h>
 #include "imgui/imgui.h"
+#include "Sandbox2D.h"
 
 namespace Hazel
 {
@@ -103,7 +104,7 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Hazel::Event &e)
+	void OnEvent(Hazel::Event &e) override
 	{
 		m_CameraController.OnEvent(e);
 	}
@@ -129,7 +130,8 @@ public:
 
 	MyApp()
 	{
-		PushLayer(new MyLayer());
+		//PushLayer(new MyLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~MyApp(){}

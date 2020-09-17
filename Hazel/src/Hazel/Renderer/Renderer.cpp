@@ -1,5 +1,6 @@
 #include "hzpch.h"
 #include "Renderer.h"
+#include "Renderer2D.h"
 
 #include "Platform/OpenGL/OpenGLShader.h" //To be removed!!!
 
@@ -44,5 +45,6 @@ namespace Hazel
 	void Renderer::Init()
 	{
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 }
