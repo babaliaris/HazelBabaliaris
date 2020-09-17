@@ -2,8 +2,6 @@
 #include "Renderer.h"
 #include "Renderer2D.h"
 
-#include "Platform/OpenGL/OpenGLShader.h" //To be removed!!!
-
 namespace Hazel
 {
 	Renderer::SceneData* Renderer::s_SceneData = new Renderer::SceneData();
@@ -31,9 +29,9 @@ namespace Hazel
 	{
 
 		//Use the shader and upload the ViewProjection matrix.
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniform("u_ViewProjectionMatrix", s_SceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniform("u_Transform", transform);
+		shader->Bind();
+		shader->SetUniform("u_ViewProjectionMatrix", s_SceneData->ViewProjectionMatrix);
+		shader->SetUniform("u_Transform", transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

@@ -16,11 +16,17 @@ namespace Hazel
 
         virtual const std::string& GetName() const override;
 
-        void SetUniform(const char *name, int x);
-        void SetUniform(const char *name, float x);
-        void SetUniform(const char *name, const glm::vec3 &vec3);
-        void SetUniform(const char* name, const glm::vec4& vec4);
-        void SetUniform(const char *name, const glm::mat4 &mat4);
+        virtual void SetUniform(const std::string& name, int x) override;
+        virtual void SetUniform(const std::string& name, float x) override;
+        virtual void SetUniform(const std::string& name, const glm::vec3& vec3) override;
+        virtual void SetUniform(const std::string& name, const glm::vec4& vec4) override;
+        virtual void SetUniform(const std::string& name, const glm::mat4& mat4) override;
+
+        void UploadUniform(const char *name, int x);
+        void UploadUniform(const char *name, float x);
+        void UploadUniform(const char *name, const glm::vec3 &vec3);
+        void UploadUniform(const char* name, const glm::vec4& vec4);
+        void UploadUniform(const char *name, const glm::mat4 &mat4);
 
         private:
         unsigned int m_id;

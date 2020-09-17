@@ -93,30 +93,59 @@ namespace Hazel
     }
 
 
-    void OpenGLShader::SetUniform(const char *name, int x)
+
+    void OpenGLShader::SetUniform(const std::string& name, int x)
+    {
+        this->UploadUniform(name.c_str(), x);
+    }
+
+    void OpenGLShader::SetUniform(const std::string& name, float x)
+    {
+        this->UploadUniform(name.c_str(), x);
+    }
+
+    void OpenGLShader::SetUniform(const std::string& name, const glm::vec3& vec3)
+    {
+        this->UploadUniform(name.c_str(), vec3);
+    }
+
+    void OpenGLShader::SetUniform(const std::string& name, const glm::vec4& vec4)
+    {
+        this->UploadUniform(name.c_str(), vec4);
+    }
+
+    void OpenGLShader::SetUniform(const std::string& name, const glm::mat4& mat4)
+    {
+        this->UploadUniform(name.c_str(), mat4);
+    }
+
+
+
+
+    void OpenGLShader::UploadUniform(const char *name, int x)
     {
         glUniform1i(this->GetLocation(name), x);
     }
 
 
-    void OpenGLShader::SetUniform(const char *name, float x)
+    void OpenGLShader::UploadUniform(const char *name, float x)
     {
         glUniform1f(this->GetLocation(name), x);
     }
 
 
-    void OpenGLShader::SetUniform(const char *name, const glm::vec3 &vec3)
+    void OpenGLShader::UploadUniform(const char *name, const glm::vec3 &vec3)
     {
         glUniform3f(this->GetLocation(name), vec3.x, vec3.y, vec3.z);
     }
 
 
-    void OpenGLShader::SetUniform(const char* name, const glm::vec4& vec4)
+    void OpenGLShader::UploadUniform(const char* name, const glm::vec4& vec4)
     {
         glUniform4f(this->GetLocation(name), vec4.x, vec4.y, vec4.z, vec4.w);
     }
 
-    void OpenGLShader::SetUniform(const char *name, const glm::mat4 &mat4)
+    void OpenGLShader::UploadUniform(const char *name, const glm::mat4 &mat4)
     {
         glUniformMatrix4fv(this->GetLocation(name), 1, GL_FALSE, (const GLfloat *)&mat4[0]);
     }

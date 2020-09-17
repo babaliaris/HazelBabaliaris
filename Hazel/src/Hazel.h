@@ -12,8 +12,7 @@
 #include "Hazel/Renderer/Buffer.h"
 #include "Hazel/Renderer/Texture.h"
 
-#include "Hazel/Renderer/Shader.h"			//To be Abstracted!!!
-#include "Platform/OpenGL/OpenGLShader.h"   //To be Abstracted!!!
+#include "Hazel/Renderer/Shader.h"
 
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Renderer.h"

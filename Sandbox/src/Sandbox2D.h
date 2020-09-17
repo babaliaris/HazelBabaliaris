@@ -12,6 +12,7 @@ public:
 
 	void OnAttach() override
 	{
+		m_texture = Hazel::Texture2D::Create("Assets/Textures/Checkerboard.png");
 	}
 
 
@@ -28,7 +29,9 @@ public:
 
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 		
-		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 1.0f }, m_SquareColor);
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_SquareColor);
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 1.0f, 1.0f }, m_texture);
+
 
 		Hazel::Renderer2D::EndScene();
 	}
@@ -48,12 +51,8 @@ public:
 private:
 	Hazel::OrthographicCameraController m_CameraController;
 
-	Hazel::Ref <Hazel::Shader> m_shader;
-
 	glm::vec4 m_SquareColor = glm::vec4(0.77f, 0.89f, 0.21f, 1.0F);
 
-	Hazel::Ref <Hazel::VertexArray> m_vao;
-
-	Hazel::ShaderLibrary shader_lib;
+	Hazel::Ref<Hazel::Texture2D> m_texture;
 
 };

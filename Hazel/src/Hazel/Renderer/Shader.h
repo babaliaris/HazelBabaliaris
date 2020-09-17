@@ -14,6 +14,12 @@ namespace Hazel
 
         virtual const std::string& GetName() const = 0;
 
+        virtual void SetUniform(const std::string& name, int x) = 0;
+        virtual void SetUniform(const std::string& name, float x) = 0;
+        virtual void SetUniform(const std::string& name, const glm::vec3& vec3) = 0;
+        virtual void SetUniform(const std::string& name, const glm::vec4& vec4) = 0;
+        virtual void SetUniform(const std::string& name, const glm::mat4& mat4) = 0;
+
         static Ref<Shader> Create(const char* v_path, const char* f_path);
     };
 
