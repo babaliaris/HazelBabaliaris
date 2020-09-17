@@ -12,10 +12,9 @@ namespace Hazel
 
 	struct Renderer2DStorage
 	{
-		Ref<VertexArray> FlatColorVertexArray;
-		Ref<VertexArray> TextureVertexArray;
-		Ref<Shader> FlatColorShader;
+		Ref<VertexArray> QuadVertexArray;
 		Ref<Shader> TextureShader;
+		Ref<Texture2D> WhiteTexture;
 		ShaderLibrary ShaderLibrary;
 	};
 
@@ -31,57 +30,6 @@ namespace Hazel
 		//Initialize s_Data.
 		s_Data = new Renderer2DStorage();
 
-
-		//==============================Colored Quad==============================//
-
-		//Quad Vertices.
-		float colored_vertices[] =
-		{
-			 0.5f,  0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			-0.5f,  0.5f, 0.0f
-		};
-
-		//Quad Incices.
-		unsigned int indices[] =
-		{
-			0, 1, 3,   // first triangle
-			1, 2, 3    // second triangle
-		};
-
-		//Declare VBO and EBO.
-		Ref<VertexBuffer> vbo;
-		Ref<IndexBuffer>  ebo;
-
-		//Create the buffers and vertex array.
-		s_Data->FlatColorVertexArray = VertexArray::Create();
-		vbo = VertexBuffer::Create(colored_vertices, sizeof(colored_vertices));
-		ebo = IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
-
-		//Create the layout.
-		BufferLayout colored_layout =
-		{
-			{ShaderDataType::FLOAT3, "position"}
-		};
-
-
-		//Add the layout to the VBO buffer.
-		vbo->SetLayout(colored_layout);
-
-		//Add VBO and EBO to the VAO.
-		s_Data->FlatColorVertexArray->AddVertexBuffer(vbo);
-		s_Data->FlatColorVertexArray->SetIndexBuffer(ebo);
-
-		//Load the shader.
-		s_Data->FlatColorShader = s_Data->ShaderLibrary.Load("src/Hazel/Renderer/Shaders/Color.vert", "src/Hazel/Renderer/Shaders/Color.frag");
-
-		//==============================Colored Quad==============================//
-
-
-
-		//==============================Textured Quad==============================//
-
 		//Quad Vertices.
 		float textured_vertices[] =
 		{
@@ -91,9 +39,20 @@ namespace Hazel
 			-0.5f,  0.5f, 0.0f,		0.0f, 1.0f  // top left 
 		};
 
+		//Quad Incices.
+		unsigned int indices[] =
+		{
+			0, 1, 3,   // first triangle
+			1, 2, 3    // second triangle
+		};
+
+
+		//Buffers.
+		Ref<VertexBuffer> vbo;
+		Ref<IndexBuffer> ebo;
 
 		//Create the buffers and vertex array.
-		s_Data->TextureVertexArray = Hazel::VertexArray::Create();
+		s_Data->QuadVertexArray = Hazel::VertexArray::Create();
 		vbo = Hazel::VertexBuffer::Create(textured_vertices, sizeof(textured_vertices));
 		ebo = Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(unsigned int));
 
@@ -110,12 +69,15 @@ namespace Hazel
 
 
 		//Add VBO and EBO to the VAO.
-		s_Data->TextureVertexArray->AddVertexBuffer(vbo);
-		s_Data->TextureVertexArray->SetIndexBuffer(ebo);
+		s_Data->QuadVertexArray->AddVertexBuffer(vbo);
+		s_Data->QuadVertexArray->SetIndexBuffer(ebo);
 
 		//Load the shader.
 		s_Data->TextureShader = s_Data->ShaderLibrary.Load("src/Hazel/Renderer/Shaders/Texture2D.vert", "src/Hazel/Renderer/Shaders/Texture2D.frag");
-		//==============================Textured Quad==============================//
+
+		s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		unsigned int whiteTextureData = 0xffffffff;
+		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(unsigned int));
 	}
 
 
@@ -129,7 +91,6 @@ namespace Hazel
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		s_Data->FlatColorShader->SetUniform("u_ViewProjectionMatrix", camera.GetViewProjectionMatrix());
 		s_Data->TextureShader->SetUniform("u_ViewProjectionMatrix", camera.GetViewProjectionMatrix());
 	}
 
@@ -154,21 +115,24 @@ namespace Hazel
 		//Set the transform matrix.
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
 		transform			= glm::scale(transform, {size.x, size.y, 1.0f});
-		s_Data->FlatColorShader->SetUniform("u_Transform", transform);
+		s_Data->TextureShader->SetUniform("u_Transform", transform);
 
 		//Set the color.
-		s_Data->FlatColorShader->SetUniform("u_Color", color);
+		s_Data->TextureShader->SetUniform("u_Color", color);
+		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
 
 		//Bind the shader and the VAO.
-		s_Data->FlatColorShader->Bind();
-		s_Data->FlatColorVertexArray->Bind();
+		s_Data->TextureShader->Bind();
+		s_Data->QuadVertexArray->Bind();
+		s_Data->WhiteTexture->Bind();
 
 		//Draw Call.
-		RenderCommand::DrawIndexed(s_Data->FlatColorVertexArray);
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 
 		//Unbind the shader and the VAO.
-		s_Data->FlatColorVertexArray->Unbind();
-		s_Data->FlatColorShader->Unbind();
+		s_Data->QuadVertexArray->Unbind();
+		s_Data->TextureShader->Unbind();
+		s_Data->WhiteTexture->Unbind();
 	}
 
 
@@ -188,19 +152,20 @@ namespace Hazel
 		transform = glm::scale(transform, { size.x, size.y, 1.0f });
 		s_Data->TextureShader->SetUniform("u_Transform", transform);
 
-		//Set the color.
+		
 		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
+		s_Data->TextureShader->SetUniform("u_Color", glm::vec4(1.0f));
 
 		//Bind the shader, texture and the VAO.
 		s_Data->TextureShader->Bind();
-		s_Data->TextureVertexArray->Bind();
+		s_Data->QuadVertexArray->Bind();
 		texture->Bind();
 
 		//Draw Call.
-		RenderCommand::DrawIndexed(s_Data->TextureVertexArray);
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 
 		//Unbind the shader, texture and the VAO.
-		s_Data->TextureVertexArray->Unbind();
+		s_Data->QuadVertexArray->Unbind();
 		s_Data->TextureShader->Unbind();
 		texture->Unbind();
 	}
