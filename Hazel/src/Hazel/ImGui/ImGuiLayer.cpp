@@ -69,12 +69,6 @@ void Hazel::ImGuiLayer::OnDetach()
 
 
 
-void Hazel::ImGuiLayer::OnImGuiRender()
-{
-    static bool show = true;
-    ImGui::ShowDemoWindow(&show);
-}
-
 
 
 
