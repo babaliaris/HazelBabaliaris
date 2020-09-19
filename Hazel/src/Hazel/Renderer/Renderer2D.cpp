@@ -120,6 +120,7 @@ namespace Hazel
 		//Set the color.
 		s_Data->TextureShader->SetUniform("u_Color", color);
 		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
+		s_Data->TextureShader->SetUniform("u_TilingFactor", 1.0f);
 
 		//Bind the shader and the VAO.
 		s_Data->TextureShader->Bind();
@@ -138,23 +139,96 @@ namespace Hazel
 
 
 
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const Ref<Texture2D>& texture)
+	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const Ref<Texture2D>& texture, float tiling, const glm::vec4& tintColor)
 	{
-		DrawQuad({ pos.x, pos.y, 0.0f }, size, texture);
+		DrawQuad({ pos.x, pos.y, 0.0f }, size, texture, tiling, tintColor);
 	}
 
 
 
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const Ref<Texture2D>& texture)
+	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const Ref<Texture2D>& texture, float tiling, const glm::vec4& tintColor)
 	{
 		//Set the transform matrix.
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
-		transform = glm::scale(transform, { size.x, size.y, 1.0f });
+		transform			= glm::scale(transform, { size.x, size.y, 1.0f });
 		s_Data->TextureShader->SetUniform("u_Transform", transform);
 
 		
 		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
-		s_Data->TextureShader->SetUniform("u_Color", glm::vec4(1.0f));
+		s_Data->TextureShader->SetUniform("u_Color", tintColor);
+		s_Data->TextureShader->SetUniform("u_TilingFactor", tiling);
+
+		//Bind the shader, texture and the VAO.
+		s_Data->TextureShader->Bind();
+		s_Data->QuadVertexArray->Bind();
+		texture->Bind();
+
+		//Draw Call.
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+
+		//Unbind the shader, texture and the VAO.
+		s_Data->QuadVertexArray->Unbind();
+		s_Data->TextureShader->Unbind();
+		texture->Unbind();
+	}
+
+
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		DrawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
+	}
+
+
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec2& pos, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tiling, const glm::vec4& tintColor)
+	{
+		DrawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, texture, tiling, tintColor);
+	}
+
+
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, float rotation, const glm::vec4& color)
+	{
+		//Set the transform matrix.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
+		transform			= glm::rotate(transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform			= glm::scale(transform, { size.x, size.y, 1.0f });
+		s_Data->TextureShader->SetUniform("u_Transform", transform);
+
+		//Set the color.
+		s_Data->TextureShader->SetUniform("u_Color", color);
+		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
+		s_Data->TextureShader->SetUniform("u_TilingFactor", 1.0f);
+
+		//Bind the shader and the VAO.
+		s_Data->TextureShader->Bind();
+		s_Data->QuadVertexArray->Bind();
+		s_Data->WhiteTexture->Bind();
+
+		//Draw Call.
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+
+		//Unbind the shader and the VAO.
+		s_Data->QuadVertexArray->Unbind();
+		s_Data->TextureShader->Unbind();
+		s_Data->WhiteTexture->Unbind();
+	}
+
+
+
+	void Renderer2D::DrawRotatedQuad(const glm::vec3& pos, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tiling, const glm::vec4& tintColor)
+	{
+		//Set the transform matrix.
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos);
+		transform			= glm::rotate(transform, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
+		transform			= glm::scale(transform, { size.x, size.y, 1.0f });
+		s_Data->TextureShader->SetUniform("u_Transform", transform);
+
+
+		s_Data->TextureShader->SetUniform("u_Diffuse", 0);
+		s_Data->TextureShader->SetUniform("u_Color", tintColor);
+		s_Data->TextureShader->SetUniform("u_TilingFactor", tiling);
 
 		//Bind the shader, texture and the VAO.
 		s_Data->TextureShader->Bind();

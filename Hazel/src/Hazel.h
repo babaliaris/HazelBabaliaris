@@ -20,5 +20,7 @@
 #include "Hazel/Renderer/OrthographicCamera.h"
 #include "Hazel/OrthographicCameraController.h"
 
+#include "Hazel/Core/Timer.h"
+
 
 #include "Hazel/Core/EntryPoint.h"

@@ -30,7 +30,10 @@ public:
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 		
 		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.5f, 0.5f }, m_SquareColor);
-		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 1.0f, 1.0f }, m_texture);
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 1.0f, 1.0f }, m_texture, 10, m_SquareColor);
+
+		Hazel::Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f, 0.1f }, { 0.5f, 0.5f }, 45.0f, m_SquareColor);
+		Hazel::Renderer2D::DrawRotatedQuad({ -1.0f, 0.0f, -0.1f }, { 0.8f, 0.8f }, -45.0f, m_texture, 5, m_SquareColor);
 
 
 		Hazel::Renderer2D::EndScene();
